@@ -1,7 +1,6 @@
-const fs = require('fs');
-const inquirer = require('inquirer');
-const path = require('path');
-const generateMarkdown = require('./utils/genrateMarkdown');
+const fs = require("fs");
+const inquirer = require("inquirer");
+const markDown = require("./utils/generateMarkdown");
 
 const questions = [
     {
@@ -52,4 +51,27 @@ const questions = [
       message: "Provide an email address.",
     },
     
-]
+];
+
+function generateQuestions() {
+    return inquirer
+      .prompt(questions)
+      .then((answers) => {
+        const newMarkDown = markDown(answers);
+        fs.writeFile("./utils/README.md", newMarkDown, () =>
+          console.log("Completed!")
+        );
+        return answers;
+    })
+    .catch((error) => console.log(error));
+}
+
+generateQuestions();
+
+// TODO: Create a function to write README file
+function writeToFile(fileName, data) {}
+
+// TODO: Create a function to initialize app
+function init() {}
+
+init ();
